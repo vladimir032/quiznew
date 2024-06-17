@@ -39,14 +39,18 @@ function showQuestion(question) {
 }
 
 function createAnswerButton(answer) {
-    const button = document.createElement('button');
-    button.innerText = answer.text;
-    button.classList.add('btn');
-    if (answer.correct) {
-        button.dataset.correct = answer.correct;
+    try {
+        const button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn');
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener('click', selectAnswer);
+        answerButtonsElement.appendChild(button);
+    } catch (error) {
+        console.error('Error in createAnswerButton:', error);
     }
-    button.addEventListener('click', selectAnswer);
-    answerButtonsElement.appendChild(button);
 }
 
 function showMultipleAnswersInfo() {
@@ -63,30 +67,38 @@ function resetState() {
     removeElementByClass('info');
 }
 
+
 function selectAnswer(e) {
-    const selectedButton = e.target;
-    const correct = selectedButton.dataset.correct === 'true';
-    selectedButton.classList.add(correct ? 'correct' : 'wrong');
-    selectedButton.disabled = true;
-    selectedAnswers.push(correct);
-    if (questions[currentQuestionIndex].multiple || selectedAnswers.length === 1) {
-        toggleVisibility(nextButton, true);
+    try {
+        const selectedButton = e.target;
+        const correct = selectedButton.dataset.correct === 'true';
+        selectedButton.classList.add(correct ? 'correct' : 'wrong');
+        selectedButton.disabled = true;
+        selectedAnswers.push(correct);
+        if (questions[currentQuestionIndex].multiple || selectedAnswers.length === 1) {
+            toggleVisibility(nextButton, true);
+        }
+        saveQuizState();
+    } catch (error) {
+        console.error('Error in selectAnswer:', error);
     }
-    saveQuizState();
 }
-
 function evaluateAnswer() {
-    const question = questions[currentQuestionIndex];
-    const correctAnswers = question.answers.filter(a => a.correct).length;
-    const selectedCorrectAnswers = selectedAnswers.filter(a => a).length;
-    const selectedIncorrectAnswers = selectedAnswers.length - selectedCorrectAnswers;
+    try {
+        const question = questions[currentQuestionIndex];
+        const correctAnswers = question.answers.filter(a => a.correct).length;
+        const selectedCorrectAnswers = selectedAnswers.filter(a => a).length;
+        const selectedIncorrectAnswers = selectedAnswers.length - selectedCorrectAnswers;
 
-    if (selectedCorrectAnswers === correctAnswers && selectedIncorrectAnswers === 0) {
-        score++;
-    } else if (question.multiple && selectedCorrectAnswers > 0) {
-        score += 0.5;
+        if (selectedCorrectAnswers === correctAnswers && selectedIncorrectAnswers === 0) {
+            score++;
+        } else if (question.multiple && selectedCorrectAnswers > 0) {
+            score += 0.5;
+        }
+        saveQuizState();
+    } catch (error) {
+        console.error('Error in evaluateAnswer:', error);
     }
-    saveQuizState();
 }
 
 function updateQuestionCounter() {
