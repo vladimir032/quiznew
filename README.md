@@ -37,7 +37,7 @@ This is a simple quiz web application written in JavaScript. The application loa
 
 ## Author
 
-[Your Name](https://github.com/your-username)
+Vladimir(https://github.com/your-username)
 
 ## License
 
