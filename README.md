@@ -15,7 +15,7 @@ This is a simple quiz web application written in JavaScript. The application loa
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/quiz-app.git
+    git clone https://github.com/your-username/quiznew.git
     ```
 
 2. Open the `index.html` file in a web browser.
@@ -34,6 +34,10 @@ This is a simple quiz web application written in JavaScript. The application loa
 1. Make changes to the `index.html`, `styles.css`, and `script.js` files as needed.
 2. Run the application in a web browser to test the changes.
 3. To add new questions, modify or append the `questions` array in the `constants.js` file.
+
+## Deploy
+
+https://66700c8e9eceaa27c03951b6--lively-kleicha-3c8604.netlify.app
 
 ## Author
 
