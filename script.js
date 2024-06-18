@@ -3,8 +3,9 @@ import { questions, elements } from './constants.js';
 let currentQuestionIndex = 0;
 let score = 0;
 let selectedAnswers = [];
+let timer;
 
-const { questionCounterElement, questionContainer, questionElement, answerButtonsElement, nextButton, prevButton, resultContainer, resultElement, restartButton } = elements;
+const { questionCounterElement, questionContainer, questionElement, answerButtonsElement, nextButton, prevButton, resultContainer, resultElement, restartButton, timerElement } = elements;
 
 nextButton.addEventListener('click', handleNextButtonClick);
 prevButton.addEventListener('click', handlePrevButtonClick);
@@ -20,6 +21,7 @@ function startQuiz() {
     toggleVisibility(nextButton, true);
     toggleVisibility(prevButton, true);
     setNextQuestion();
+    startTimer(5 * 60); // Запускаем таймер на 5 минут
 }
 
 function setNextQuestion() {
@@ -35,6 +37,10 @@ function showQuestion(question) {
     question.answers.forEach(answer => createAnswerButton(answer));
     if (question.multiple) {
         showMultipleAnswersInfo();
+    }
+    // Проверяем, нужно ли запустить таймер между вопросом и ответами
+    if (currentQuestionIndex > 0) {
+        startTimer(60); // Переключение между вопросами и ответами через 30 секунд (можно настраивать)
     }
 }
 
@@ -114,6 +120,7 @@ function showResult() {
     clearQuizState();
 }
 
+
 function toggleNavigationButtons() {
     prevButton.disabled = currentQuestionIndex === 0;
     nextButton.innerText = currentQuestionIndex === questions.length - 1 ? 'Finish' : 'Next';
@@ -175,12 +182,32 @@ function removeElementByClass(className) {
     }
 }
 
+function startTimer(duration) {
+    clearInterval(timer);
+    let timerSeconds = duration;
+    timer = setInterval(() => {
+        timerElement.innerText = formatTime(timerSeconds);
+        if (timerSeconds <= 0) {
+            clearInterval(timer);
+        }
+        timerSeconds--;
+    }, 1000);
+}
+
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+// Вместо предыдущей startTimer() вызываем startTimer(5 * 60) для 5 минут
+startTimer(60);
+
+
 loadQuizState();
 if (currentQuestionIndex < questions.length) {
     setNextQuestion();
 } else {
     showResult();
 }
-
-
-

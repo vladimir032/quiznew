@@ -29,6 +29,15 @@ body {
     text-align: center;
 }
 
+#timer-container {
+    margin-bottom: 20px;
+}
+
+#timer {
+    font-size: 1.5em;
+    color: var(--text-color);
+}
+
 #question {
     font-size: 1.2em;
 }
@@ -111,3 +120,4 @@ body {
         font-size: 1em;
     }
 }
+
