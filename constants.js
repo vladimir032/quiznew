@@ -49,4 +49,5 @@ export const elements = {
     resultElement: document.getElementById('result'),
     restartButton: document.getElementById('restart-btn'),
     timerElement: document.getElementById('timer') // Добавляем новый элемент таймера
+
 };

@@ -6,7 +6,7 @@ let selectedAnswers = [];
 let timer;
 
 const { questionCounterElement, questionContainer, questionElement, answerButtonsElement, nextButton, prevButton, resultContainer, resultElement, restartButton, timerElement } = elements;
-
+const timerContainer = document.getElementById('ques');
 nextButton.addEventListener('click', handleNextButtonClick);
 prevButton.addEventListener('click', handlePrevButtonClick);
 restartButton.addEventListener('click', startQuiz);
@@ -20,6 +20,8 @@ function startQuiz() {
     toggleVisibility(questionContainer, true);
     toggleVisibility(nextButton, true);
     toggleVisibility(prevButton, true);
+    toggleVisibility(questionCounterElement, true);
+    toggleVisibility(timerElement, true);
     setNextQuestion();
     startTimer(5 * 60); // Запускаем таймер на 5 минут
 }
@@ -38,9 +40,8 @@ function showQuestion(question) {
     if (question.multiple) {
         showMultipleAnswersInfo();
     }
-    // Проверяем, нужно ли запустить таймер между вопросом и ответами
     if (currentQuestionIndex > 0) {
-        startTimer(60); // Переключение между вопросами и ответами через 30 секунд (можно настраивать)
+        startTimer(60);
     }
 }
 
@@ -73,7 +74,6 @@ function resetState() {
     removeElementByClass('info');
 }
 
-
 function selectAnswer(e) {
     try {
         const selectedButton = e.target;
@@ -89,6 +89,7 @@ function selectAnswer(e) {
         console.error('Error in selectAnswer:', error);
     }
 }
+
 function evaluateAnswer() {
     try {
         const question = questions[currentQuestionIndex];
@@ -116,10 +117,12 @@ function showResult() {
     toggleVisibility(nextButton, false);
     toggleVisibility(prevButton, false);
     toggleVisibility(resultContainer, true);
+    toggleVisibility(questionCounterElement, false);
+    toggleVisibility(timerElement, false);
     resultElement.innerText = `You scored ${score} out of ${questions.length}!`;
     clearQuizState();
+    toggleVisibility(ques, false);
 }
-
 
 function toggleNavigationButtons() {
     prevButton.disabled = currentQuestionIndex === 0;
@@ -194,16 +197,13 @@ function startTimer(duration) {
     }, 1000);
 }
 
-
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
-// Вместо предыдущей startTimer() вызываем startTimer(5 * 60) для 5 минут
 startTimer(60);
-
 
 loadQuizState();
 if (currentQuestionIndex < questions.length) {
