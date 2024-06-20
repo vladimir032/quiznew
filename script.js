@@ -6,7 +6,6 @@ let selectedAnswers = [];
 let timer;
 
 const { questionCounterElement, questionContainer, questionElement, answerButtonsElement, nextButton, prevButton, resultContainer, resultElement, restartButton, timerElement } = elements;
-const timerContainer = document.getElementById('ques');
 nextButton.addEventListener('click', handleNextButtonClick);
 prevButton.addEventListener('click', handlePrevButtonClick);
 restartButton.addEventListener('click', startQuiz);
